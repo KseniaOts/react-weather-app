@@ -1,3 +1,58 @@
 .Weather {
   border: 1px solid #dadde1;
 }
+
+body {
+  background-color: #e7f0fa;
+}
+
+h1 {
+  color: #303193;
+  font-weight: 500;
+  font-size: 70px;
+  margin-top: 100px;
+  margin-left: 70px;
+}
+h2 {
+  color: #303193;
+  font-weight: 500;
+  font-size: 70px;
+  margin-top: 15px;
+  margin-left: 120px;
+}
+
+img {
+  margin-top: 15px;
+  margin-left: 160px;
+}
+
+li {
+  list-style: none;
+
+  top: 10px;
+  color: #303193;
+  font-weight: 500;
+  font-size: 20px;
+  margin-left: 100px;
+}
+
+form {
+  margin-top: 130px;
+}
+.btn {
+  background-color: #303193;
+  color: white;
+  border-radius: 5px;
+  width: 90px;
+  height: 40px;
+  position: relative;
+  margin-left: 0px;
+  border: 1px solid white;
+}
+
+.form-control {
+  width: 320px;
+  height: 40px;
+  color: #303193;
+  border-radius: 5px;
+}
