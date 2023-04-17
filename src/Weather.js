@@ -1,33 +1,39 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Weather.css";
-export default function Weather() {
-  const [ready, setReady] = useState(false);
-  const [temperature, setTemperature] = useState(null);
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
   function handleResponse(response) {
     console.log(response.data);
-    setTemperature(response.data.main.temp);
-    setReady(true);
+    setWeatherData({
+      ready: true,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      date: "Monday 20:05",
+      description: response.data.weather[0].description,
+      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/sunny.png",
+      wind: response.data.wind.speed,
+      city: response.data.name,
+    });
   }
 
-  if (ready) {
+  if (weatherData.ready) {
     return (
       <div className="Weather">
         <div className="row">
           <div className="col-6">
-            <h1> New York</h1>
-            <span className="temperature">13</span>
+            <h1> {weatherData.city}</h1>
+            <span className="temperature">
+              {Math.round(weatherData.temperature)}
+            </span>
             <span className="unit">°C/°F</span>
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAb5JREFUeNrtmtuNgzAQRSmBElwCJbgESuBzy6AESnAJlEAJ/PJHOqAD73g10QJa8sJ4huUiXSlyHMX3jM34lXnvsysrAwAAAAAAAAAAAAAAAAAAAIDfwg8ff/sypIrkSD3Jb6jnOqGuyRI/0QGQCUtqHxh+pvBbezoAbLzbYXytLgWI3QCokTmpiWh8rUYtADbfH2h+/p7IVQGgBhWkKYH5u8bwnyoAcORTmp9DyEUBJOz2m8NBGkAjaD76i/EtAJzqvBJZCQCdIgBdUgDKoh+tF7wDoFUIoE0CgBc2XqnyFAAqYZNhtVjyMLT8OZTVoX3DMBiSI00kz5q4zMQA4KRy/rPZHxksVsbXCt8VewH0QuZzanxQ/Ud0a478I/Pz+mYPAInoFxzh/gWDr8idCYBj83Uk8z+94CMAQhmgZABTRAD+LD0gzDYNj31/gBbZQRuAavZ2PwrAIjtoAlCx8ZI0Hmx+kR00pMFuZt4nltMwEbpHfxQAMGmYCtsEY35T4ouhTPBRsRw+C4Brb4hcfksMm6LYFsfBCI7GcDiK43FckMAVGVySuto1OdwUBQAAAAAAAAAAAAAAAAAA+Pf6Bm5v6/1bJGiwAAAAAElFTkSuQmCC"
-              alt="Mostly Cloudy"
-            />
+            <img src={weatherData.iconUrl} alt={weatherData.description} />
             <ul>
-              <li> Wednesday 07:00</li>
-              <li>Mostly clowdy</li>
-              <li>Precipitation: 15%</li>
-              <li>Humidity: 75%</li>
-              <li>Wind: 13 km/h</li>
+              <li> {weatherData.date}</li>
+              <li className="text-capitalize">{weatherData.description}</li>
+
+              <li>Humidity: {weatherData.humidity}%</li>
+              <li>Wind: {weatherData.wind} km/h</li>
             </ul>
           </div>
           <div className="col-6">
@@ -55,9 +61,8 @@ export default function Weather() {
     );
   } else {
     const apiKey = "1be85983e26932dcdad5b28a3c894628";
-    let city = "Tallinn";
-    let apiUrl =
-      "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric";
+
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(handleResponse);
     return "Loading...";
   }
